@@ -1,0 +1,15 @@
+google_auth.py
+env/
+.idea/
+.vscode
+/__pycache__/
+static/assets/
+models/__pycache__/
+lib/service/__pycache__/
+lib/validator/__pycache__/
+controllers/__pycache__/
+routes/__pycache__/
+db.sqlite
+db-admin-2-password
+
+
