@@ -32,10 +32,18 @@
                                             <span class="userDatatable-title">id</span>
                                         </th>
                                         <th>
-                                            <span class="userDatatable-title">username</span>
+                                            <span class="userDatatable-title">Nom complet</span>
                                         </th>
                                         <th>
-                                            <span class="userDatatable-title">emaill</span>
+                                            <span class="userDatatable-title">email</span>
+                                        </th>
+
+                                        <th>
+                                            <span class="userDatatable-title">Numéro compte</span>
+                                        </th>
+
+                                        <th>
+                                            <span class="userDatatable-title">Solde</span>
                                         </th>
                                        
                                         <th data-type="html" data-name='status'>
@@ -47,7 +55,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for customer in cumstomer %}
+                                    {% for customer in customers %}
                                         <tr>
                                             <td>
                                                 <div class="userDatatable-content">01</div>
@@ -56,7 +64,9 @@
                                                 <div class="d-flex">
                                                     <div class="userDatatable-inline-title">
                                                         <a href="#" class="text-dark fw-500">
-                                                            <h6>{{customer.email}} </h6>
+                                                           
+                                                            <h6>{{customer.lastname}} {{customer.firstname}} </h6>
+                                                           
                                                         </a>
                                                     </div>
                                                 </div>
@@ -64,6 +74,16 @@
                                             <td>
                                                 <div class="userDatatable-content">
                                                     {{customer.email}}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="userDatatable-content">
+                                                    {{customer.accounts.account_number}}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="userDatatable-content">
+                                                    {{customer.accounts.balance}}
                                                 </div>
                                             </td>
                                             
@@ -84,8 +104,12 @@
                                                             <span data-feather="edit"></span></a>
                                                     </li>
                                                     <li>
-                                                        <a href="/admin/remove/{{customer.id}}" class="remove">
-                                                            <span data-feather="trash-2"></span></a>
+                                                        <a href="/admin/customer/remove/{{customer.id}}" class="remove">
+                                                            <span data-feather="power"></span></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/admin/customer/remove/{{customer.id}}" class="remove">
+                                                        <span data-feather="trash-2"></span></a>
                                                     </li>
                                                 </ul>
                                             </td>

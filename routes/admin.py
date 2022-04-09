@@ -82,19 +82,21 @@ def customer_add():
 
 @app.route('/admin/customer/add', methods=['POST'])
 def customer_add_post():
+    
     if  is_connected():
-        if is_admin():
+        if is_admin():            
             lastname=request.form['lastname']
             firstname=request.form['firstname']
             phone=request.form['phone']
             password="passer@123"
             email=request.form['email']
-            if lastname and firstname and phone  and email:
-                if CustomerController.customer_store(lastname, firstname, phone, password, email):
+            
+            if lastname and firstname and phone  and email:               
+                if CustomerController.customer_store(lastname=lastname, firstname=firstname, phone=phone, password=password, email=email):
+                   # return "je suis un bg"
                     return redirect('/admin/customer/list')
             return redirect('/admin/customer/add')
     return redirect('/')
-
 
 @app.route('/admin/customer/list', methods=['GET'])
 def customer_list():
@@ -102,4 +104,13 @@ def customer_list():
         if is_admin():
             customers=CustomerController.get_all_customers()
             return render_template("client/list.html", customers=customers)
+    return redirect('/')
+
+
+@app.route('/admin/customer/remove/<int:id>', methods=['GET'])
+def customer_remove(id):
+    if  is_connected():
+        if is_admin():
+            if CustomerController.customer_remove(id):
+                return redirect('/admin/customer/list')
     return redirect('/')

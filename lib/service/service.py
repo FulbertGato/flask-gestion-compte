@@ -7,3 +7,8 @@ def decrypt_password(password):
     f = Fernet(key_encrypt)
     return f.decrypt(password).decode()
 
+def generate_account_number():
+    from datetime import datetime
+    time_data = datetime.now()
+    date_time_str = time_data.strftime("%Y%m%d%H%M%S")
+    return date_time_str
