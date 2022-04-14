@@ -1,7 +1,8 @@
 #from flask_sqlalchemy import SQLAlchemy
 import datetime
-from app import db
 
+from app import db
+from models import Customer
 
 class Account(db.Model):
     __tablename__ = 'account'
@@ -37,6 +38,41 @@ class Account(db.Model):
             'updated_at': self.updated_at
         }
 
+    
+
 def add_account(account):
     db.session.add(account)
     db.session.commit()
+
+
+def get_account(account_number):
+    return Account.query.filter_by(account_number=account_number).first()
+
+
+def get_accounts():
+    return Account.query.all()
+
+
+def update_account(account_number, account):
+    account_to_update = get_account(account_number)
+    account_to_update.account_number = account.account_number
+    account_to_update.balance = account.balance
+    account_to_update.secret = account.secret
+    account_to_update.customer_id = account.customer_id
+    account_to_update.updated_at = datetime.datetime.now()
+    db.session.commit()
+
+
+def delete_account(account_number):
+    account_to_delete = get_account(account_number)
+    db.session.delete(account_to_delete)
+    db.session.commit()
+
+
+def get_account_by_customer_id(customer_id):
+    return Account.query.filter_by(customer_id=customer_id).all()
+
+
+def get_acount_by_customer_phone_and_secret(phone, secret):
+    return Account.query.filter_by(customer_id=Customer.get_customer_by_phone(phone).id, secret=secret).first()
+    

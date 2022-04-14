@@ -1,0 +1,89 @@
+{%extends "./include/client/base.html" %}
+{% block title %}Liste des transactions {% endblock %}
+{% block content %}        
+    <div class="row">
+        <div class="col-lg-12 mb-30 m-10">
+            <div class="card">
+                <div class="card-header color-dark fw-500">
+                    User List
+                </div>
+                <div class="card-body">
+
+                    <div class="userDatatable global-shadow border-0 bg-white w-100">
+                        <div class="table-responsive">
+                            <table class="table mb-0 table-borderless">
+                                <thead>
+                                    <tr class="userDatatable-header">
+                                        <th>
+                                            <span class="userDatatable-title">ID</span>
+                                        </th>
+                                        <th>
+                                            <span class="userDatatable-title">Amount</span>
+                                        </th>
+                                        <th>
+                                            <span class="userDatatable-title">Type</span>
+                                        </th>
+                                        <th>
+                                            <span class="userDatatable-title">Status</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                   
+                                       
+                                    {% for transaction in transactions %}
+
+                                    <tr>
+                                        
+                                        
+                                        <td>
+                                            <div class="userDatatable-content">
+                                                {{transaction.id}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="userDatatable-content d-inline-block">
+                                                {{transaction.amount}}
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="userDatatable-content d-inline-block">
+                                            {% if transaction.type_transaction.name == 'credit' %}
+                                                <span class="bg-opacity-success  color-success rounded-pill userDatatable-content-status active">DEPOT</span>
+                                                {% else %}
+                                                <span class="bg-opacity-danger  color-danger rounded-pill userDatatable-content-status inactive">DEBIT</span>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="userDatatable-content d-inline-block">
+                                                
+                                                <span class="bg-opacity-success  color-success rounded-pill userDatatable-content-status active">{{transaction.status}}</span>
+                                                
+                                            </div>
+                                        </td>
+
+                                        
+                                        
+                                    </tr>
+
+                                    {% endfor %}
+
+
+
+
+                                    
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+      
+    </div>   
+{% endblock %}

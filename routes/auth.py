@@ -41,16 +41,32 @@ def login_post():
                 
 
         elif request.form['role'] == 'customer':
-            if request.form['email']  and request.form['password'] :
-                username = request.form['email'] 
-                password = request.form['password']
-                customer = AuthController.login_customer(username, password)
+            if request.form['phone']  and request.form['password'] :
+                phone= request.form['phone'] 
+                secret = request.form['password']
+                customer = AuthController.login_customer(phone, secret)
                 if customer:
-                    return redirect('/customer')
+                    if customer.status == 'active':
+                        #creer une session
+                        session['user_connect'] = customer.serialize()
+                        return redirect('/customer')
+                    else:
+                        flash('Votre compte est désactivé')
+                        return redirect(url_for('login', role='customer', phone=phone))
             flash('Les données saisies sont incorrectes')
-            return redirect('/login/customer')
+            return redirect(url_for('login', role='customer', phone=phone))
     return redirect('/')
-    
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    if  is_connected():
+        session.clear()
+        return redirect('/')
+    return redirect('/')  
+
+
+
 @app.route('/', methods=['GET'])
 def visiteur():
     if  is_connected():

@@ -1,0 +1,106 @@
+{%extends "./include/admin/base.html" %}
+{% block title %}Modifier {{customer.firstname}} {% endblock %}
+{% block content %} 
+ <div class="col-lg-12">
+    <div class="card card-horizontal card-default card-md mb-4 mt-30">
+        <div class="card-header">
+            <h6>Modifier</h6>
+        </div>
+        <div class="card-body py-md-30 ">
+            <div class="horizontal-form">
+                <form action="/admin/customer/update" method="post">
+
+                    <div class="form-group row mb-25">
+                        <div class="col-sm-3 d-flex aling-items-center">
+                            <label for="inputNameIcon" class=" col-form-label color-dark fs-14 fw-500 align-center">Numero de compte</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="with-icon">
+                                <span class="la-user lar color-gray"></span>
+                                <input type="text" class="form-control  ih-medium ip-gray radius-xs b-light" id="inputNameIcon"  value={{customer.accounts.account_number}} readonly>
+                                <input type="text"  name="id"  value={{customer.id}} hidden>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-25">
+                        <div class="col-sm-3 d-flex aling-items-center">
+                            <label for="inputNameIcon" class=" col-form-label color-dark fs-14 fw-500 align-center">Balance</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="with-icon">
+                                <span class="la-user lar color-gray"></span>
+                                <input type="text" class="form-control  ih-medium ip-gray radius-xs b-light" id="inputNameIcon"  value={{customer.accounts.balance}} readonly required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-25">
+                        <div class="col-sm-3 d-flex aling-items-center">
+                            <label for="inputNameIcon" class=" col-form-label color-dark fs-14 fw-500 align-center">firstname</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="with-icon">
+                                <span class="la-user lar color-gray"></span>
+                                <input type="text" class="form-control  ih-medium ip-gray radius-xs b-light" id="inputNameIcon" name="firstname" value={{customer.firstname}} required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-25">
+                        <div class="col-sm-3 d-flex aling-items-center">
+                            <label for="inputNameIcon" class=" col-form-label color-dark fs-14 fw-500 align-center" >lastname</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="with-icon">
+                                <span class="la-user lar color-gray"></span>
+                                <input type="text" class="form-control  ih-medium ip-gray radius-xs b-light" id="inputNameIcon" name="lastname" value={{customer.lastname}} required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-25">
+                        <div class="col-sm-3 d-flex aling-items-center">
+                            <label for="inputEmailIcon" class=" col-form-label color-dark fs-14 fw-500 align-center">email</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="with-icon">
+                                <span class="lar la-envelope color-gray"></span>
+                                <input type="email" class="form-control  ih-medium ip-gray radius-xs b-light" id="inputEmailIcon" value={{customer.email}} name="email" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-25">
+                        <div class="col-sm-3 d-flex aling-items-center">
+                            <label for="inputNameIcon" class=" col-form-label color-dark fs-14 fw-500 align-center">telephone</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="with-icon">
+                                <span class="la-user lar color-gray"></span>
+                                <input type="text" class="form-control  ih-medium ip-gray radius-xs b-light" id="inputNameIcon" name="phone" value={{customer.phone}} required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-group row mb-0">
+                        
+                        <div class="col-sm-9">
+                            
+                            <div class="layout-button mt-25">
+                                
+                                <button type="submit" class="btn btn-primary btn-default btn-squared px-30">Enregister</button>
+                                {% if customer.status == 'active' %}
+                                <a href="/admin/customer/update/status/{{customer.id}}" class="btn btn-danger btn-default btn-squared px-30">block</a>
+                                {% else %}
+                                <a href="/admin/customer/update/status/{{customer.id}}" class="btn btn-success btn-default btn-squared px-30">active</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ends: .card -->
+
+</div>
+{% endblock %}

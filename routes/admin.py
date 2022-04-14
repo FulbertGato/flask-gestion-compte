@@ -1,3 +1,4 @@
+from tokenize import Number
 from flask import Blueprint, redirect, render_template, request
 from controllers import AdminController, CustomerController
 from app import app
@@ -113,4 +114,59 @@ def customer_remove(id):
         if is_admin():
             if CustomerController.customer_remove(id):
                 return redirect('/admin/customer/list')
+    return redirect('/')
+    
+@app.route('/admin/customer/view/<int:id>', methods=['GET'])
+def customer_view(id):
+    if  is_connected():
+        if is_admin():
+            customer=CustomerController.customer_by_id(id)
+            return render_template("client/view.html", customer=customer)
+    return redirect('/')
+
+@app.route('/admin/customer/update', methods=['POST'])
+def customer_update():
+    if  is_connected():
+       
+        id=request.form['id']
+        lastname=request.form['lastname']
+        firstname=request.form['firstname']
+        phone=request.form['phone']
+        email=request.form['email']
+        if lastname and firstname and phone and email:
+            if CustomerController.customer_update(id, lastname=lastname, firstname=firstname, phone=phone, email=email):
+                 if is_admin():
+                    return redirect('/admin/customer/list')
+                 else:
+                    return redirect('/')
+            return redirect('/admin/customer/view/'+str(id))
+    return redirect('/')
+
+
+@app.route('/admin/customer/update/status/<int:id>', methods=['GET'])
+def customer_update_status(id):
+    if  is_connected():
+        if is_admin():
+            if CustomerController.customer_status_update(id):
+                return redirect('/admin/customer/list')
+    return redirect('/')
+
+
+@app.route('/admin/customer/search', methods=['GET'])
+def customer_search():
+    if  is_connected():
+        if is_admin():
+            return render_template("client/search.html")
+    return redirect('/')
+
+
+@app.route('/admin/customer/search', methods=['POST'])
+def customer_search_post():
+    if  is_connected():
+        if is_admin():
+            number=request.form['number']
+            customer=CustomerController.customer_by_account_number(number)
+            if customer:
+                 return redirect('/admin/customer/view/'+str(customer.id))
+            return redirect('/admin/customer/search')
     return redirect('/')

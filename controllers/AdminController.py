@@ -1,4 +1,5 @@
 from models import  Admin
+from models import TypeTransaction
 def get_all_admins():
     return Admin.all_admins()
 
@@ -6,8 +7,10 @@ def admin_store(username, password, email):
     if not Admin.query_by_email(email):
         print ('email is not exist')
         admin = Admin.Admin(username=username, email=email, password=password)
+    
         Admin.add_admin(admin)
         return True
+
     return False
 
 

@@ -1,4 +1,5 @@
-from models import Customer, Admin
+
+from models import Customer, Admin, Account
 
 
 def login_admin(usersname, password):
@@ -14,7 +15,9 @@ def login_admin(usersname, password):
 
 
 def login_customer(phone, password):
-    if phone == 'customer' and password == 'customer':
-        return True
-    else:
-        return False
+    customer = Account.get_acount_by_customer_phone_and_secret(phone, password).customer
+    if customer:
+        return customer
+    return False
+    
+    
