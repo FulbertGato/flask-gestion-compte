@@ -40,6 +40,9 @@
                                             <span class="userDatatable-title">Status</span>
                                         </th>
                                         <th>
+                                            <span class="userDatatable-title">Crée par</span>
+                                        </th>
+                                        <th>
                                             <span class="userDatatable-title float-right">action</span>
                                         </th>
                                     </tr>
@@ -99,6 +102,12 @@
                                                 {% else %}
                                                 <span class="bg-opacity-danger  color-danger rounded-pill userDatatable-content-status inactive">BLOCKED</span>
                                                 {% endif %}
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="userDatatable-content">
+                                                {{customer.admin.username}}
                                             </div>
                                         </td>
                                         <td>

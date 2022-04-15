@@ -62,7 +62,7 @@
                                         <img src="{{ url_for('static', filename= 'assets/img/author-nav.jpg') }}" alt="" class="rounded-circle">
                                     </div>
                                     <div>
-                                        <h6>{{session['user_connect']['username']}}</h6>
+                                        <h6>{{session['user_connect']['username']}}{{session['user_connect']['nom']}}</h6>
                                         <span>{{session['user_connect']['role']}}</span>
                                     </div>
                                 </div>

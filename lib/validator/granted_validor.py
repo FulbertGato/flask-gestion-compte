@@ -8,3 +8,6 @@ def is_admin():
 
 def is_customer():
     return 'user_connect' in session and session['user_connect']['role'] == 'customer'
+
+def is_distributeur():
+    return 'user_connect' in session and session['user_connect']['role'] == 'distributeur'

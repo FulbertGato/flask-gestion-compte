@@ -9,14 +9,14 @@ app.config["SQLALCHEMY_DATABASE_URI"]= "sqlite:///"+os.path.join(basedir,"db.sql
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]= False
 db = SQLAlchemy(app)
 
-from models import Customer, Account, Transaction, TypeTransaction, Admin
+from models import Customer, Account, Transaction, TypeTransaction, Admin, Voucher, Distributeur
 db.create_all()
 
 from routes.auth import auth_bp
 from routes.admin import admin_bp
 from routes.customer import customer_bp
 from routes.google_auth import google_bp
-
+from routes.distributeur import distributeur_bp
 # typeTransactionCredit=TypeTransaction.TypeTransaction(name="credit")
 # typeTransactionDebit=TypeTransaction.TypeTransaction(name="debit")
 # db.session.add(typeTransactionCredit)
@@ -36,4 +36,5 @@ if __name__ == '__main__':
     app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(customer_bp, url_prefix='/customer')
     app.register_blueprint(google_bp, url_prefix='/google')
+    app.register_blueprint(distributeur_bp, url_prefix='/distributeur')
     app.run(debug=True)

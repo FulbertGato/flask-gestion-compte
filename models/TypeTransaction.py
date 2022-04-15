@@ -5,7 +5,7 @@ from datetime import date
 class TypeTransaction(db.Model):
     __tablename__ = 'type_transaction'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False, unique=True)
     transaction=db.relationship('Transaction', back_populates="type_transaction",cascade="all, delete",passive_deletes=True)
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=True)
@@ -23,7 +23,7 @@ def get_all_type_transaction():
 
 
 def get_type_transaction_by_id(id):
-    return TypeTransaction.query.get(id)
+    return TypeTransaction.query.filter_by(id=id).first()
 
 
 def add_type_transaction(name):

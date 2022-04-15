@@ -17,6 +17,9 @@ def admin_store(username, password, email):
 def get_admin_by_id(id):
     return Admin.get_admin_by_id(id)
 
+def get_admin_by_email(email):
+    return Admin.query_by_email(email)
+    
 def admin_remove(id):
     admin = Admin.get_admin_by_id(id)
     if admin:
@@ -31,3 +34,4 @@ def admin_update(id, username, email):
         Admin.update_admin(admin, username, email)
         return True
     return False
+

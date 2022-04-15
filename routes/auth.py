@@ -9,9 +9,7 @@ def login(role):
     
     if  is_connected():
         return redirect('/')
-    #get attributes from request
-    
-    if role == 'admin' or role == 'customer':
+    if role == 'admin' or role == 'customer' or role == 'distributeur':
         if request.args.get('username'):
             username = request.args.get('username')
             return render_template("auth/login.html", role=role,username=username)
@@ -25,7 +23,6 @@ def login_post():
     if  is_connected():
        return redirect('/')
     if request.method == 'POST':
-
         if request.form['role'] == 'admin':
             if request.form['email']  and request.form['password']  :
                 username = request.form['email'] 
@@ -46,6 +43,7 @@ def login_post():
                 secret = request.form['password']
                 customer = AuthController.login_customer(phone, secret)
                 if customer:
+                    
                     if customer.status == 'active':
                         #creer une session
                         session['user_connect'] = customer.serialize()
@@ -55,6 +53,20 @@ def login_post():
                         return redirect(url_for('login', role='customer', phone=phone))
             flash('Les données saisies sont incorrectes')
             return redirect(url_for('login', role='customer', phone=phone))
+        elif request.form['role'] == 'distributeur':
+            if request.form['email']  and request.form['password']  :
+                username = request.form['email'] 
+                password = request.form['password']
+                distributeur = AuthController.login_distributeur(username, password)
+                if distributeur:
+                    if distributeur.status == 'active':
+                        #creer une session
+                        session['user_connect'] = distributeur.serialize()
+                        return redirect('/distributeur')
+                    flash('Votre compte est désactivé')
+                    return redirect(url_for('login', role='distributeur', username=username))
+            flash('Les données saisies sont incorrectes')
+            return redirect(url_for('login', role='distributeur', username=username))
     return redirect('/')
 
 

@@ -1,4 +1,4 @@
-{%extends "./include/client/base.html" %}
+{%extends "./include/distributeur/base.html" %}
 {% block title %}Dashboard {% endblock %}
 {% block content %}
 <style>
@@ -67,26 +67,31 @@
     <div class="card mb-4">
         <div class="card-header">Faire un depot </div>
         <div class="card-body">
-            <form method="post" action="/customer/deposit/post">              
-                <!-- Form Group (email address)-->
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    
+                    {% for message in messages %}
                         
-                        {% for message in messages %}
-                            
-                            <div class="alert alert-danger text-center" role="alert">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                        
-                    {% endif %}
-                {% endwith %}
+                        <div class="alert alert-danger text-center" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    
+                {% endif %}
+            {% endwith %}
+            <form method="post" action="/distributeur/depot">              
+               
                 <div class="mb-3">
-                    <label class="small mb-1" for="inputEmailAddress">Voucher code</label>
+                    <label class="small mb-1" for="inputEmailAddress">amount</label>
                     <input class="form-control" id="inputEmailAddress" type="text"  name="amount" >
                     <input type="text"  name="id" value="{{session['user_connect']['id']}}" hidden>
                 </div>
-                <button class="btn btn-primary" type="submit">Faire le dépot</button>
+
+                <div class="mb-3">
+                    <label class="small mb-1" for="inputEmailAddress">Bénéficiaire</label>
+                    <input class="form-control" id="inputEmailAddress" type="text"  name="account_number" >
+                </div>
+                <button class="btn btn-primary" type="submit">Generer le code </button>
             </form>
         </div>
     </div>

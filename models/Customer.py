@@ -13,19 +13,23 @@ class Customer(db.Model):
     password = db.Column(db.String(255), nullable=False)
     status=db.Column(db.String(50), nullable=False)
     accounts = db.relationship('Account', back_populates="customer",cascade="all, delete",uselist=False, passive_deletes=True)
+    admin_id = db.Column(db.Integer, db.ForeignKey('admin.id', ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    admin = db.relationship('Admin', back_populates="customers")
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=True)
 
-    def __init__(self, firstname, lastname, email, phone, password, status="active"):
+    
+    def __init__(self, firstname, lastname, email, phone, password, admin_id):
         self.firstname = firstname
         self.lastname = lastname
         self.email = email
         self.phone = phone
         self.password = password
-        self.status = status
+        self.status = 'active'
+        self.admin_id = admin_id
         self.created_at = date.today()
         self.updated_at = date.today()
-
+    
     def __repr__(self):
         return '<Customer %r>' % self.firstname
     
@@ -36,14 +40,11 @@ class Customer(db.Model):
             'lastname': self.lastname,
             'email': self.email,
             'phone': self.phone,
-            'password': self.password,
             'status': self.status,
-            'role': 'customer',
-            'created_at': self.created_at,
-            'updated_at': self.updated_at,
-            'accounts': self.accounts.serialize()
-            
+            'admin_id': self.admin_id,
+            'role': 'customer'
         }
+    
 def query_by_email(email):
     return Customer.query.filter_by(email=email).first()
 
@@ -76,8 +77,8 @@ def status_update(customer):
 
 def all_customers():
     customers = Customer.query.all()
-    customers_serialized = [customer.serialize() for customer in customers]
-    return customers_serialized
+    #customers_serialized = [customer.serialize() for customer in customers]
+    return customers
 
 
 

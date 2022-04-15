@@ -8,6 +8,7 @@ class Admin(db.Model):
     username = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable=False)
+    customers = db.relationship('Customer', back_populates='admin', cascade="all, delete",passive_deletes=True)
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=True)
 

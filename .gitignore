@@ -1,5 +1,5 @@
 google_auth.py
-env/
+.env/
 .idea/
 .vscode
 /__pycache__/

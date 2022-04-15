@@ -1,4 +1,4 @@
-{%extends "./include/client/base.html" %}
+{%extends "./include/distributeur/base.html" %}
 {% block title %}Dashboard {% endblock %}
 {% block content %}
 <style>
@@ -85,23 +85,19 @@
             <div class="card mb-4">
                 <div class="card-header">Account Details</div>
                 <div class="card-body">
-                    <form method="post" action="/admin/customer/update">
-                        <!-- Form Group (username)-->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputUsername">Numéro compte (ceci est votre numero de compte a donnée pour recevoir des transfert)</label>
-                            <input class="form-control" id="inputUsername" type="text"  value="{{customer.accounts.account_number}}" readonly>
-                        </div>
+                    <form method="post" action="/admin/distributeur/update/{{session['user_connect']['id']}}">
+                       
                         <!-- Form Row-->
                         <div class="row gx-3 mb-3">
                             <!-- Form Group (first name)-->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="inputFirstName">First name</label>
-                                <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" name="firstname" value="{{customer.firstname}}">
+                                <label class="small mb-1" for="inputFirstName">Nom</label>
+                                <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" name="nom" value="{{session['user_connect']['nom']}}">
                             </div>
                             <!-- Form Group (last name)-->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="inputLastName">Last name</label>
-                                <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" name="lastname" value="{{customer.lastname}}">
+                                <label class="small mb-1" for="inputLastName">Prenom</label>
+                                <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" name="prenom" value="{{session['user_connect']['prenom']}}">
                                 <input type="text"  name="id" value="{{session['user_connect']['id']}}" hidden>
                             </div>
                         </div>
@@ -109,21 +105,9 @@
                         <!-- Form Group (email address)-->
                         <div class="mb-3">
                             <label class="small mb-1" for="inputEmailAddress">Email address</label>
-                            <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" name="email" value="{{customer.email}}">
+                            <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" name="email" value="{{session['user_connect']['email']}}">
                         </div>
-                        <!-- Form Row-->
-                        <div class="row gx-3 mb-3">
-                            <!-- Form Group (phone number)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputPhone">Phone number</label>
-                                <input class="form-control" id="inputPhone" type="text" placeholder="Enter your phone number" name="phone" value="{{customer.phone}}">
-                            </div>
-                            <!-- Form Group (birthday)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputBirthday">Birthday</label>
-                                <input class="form-control" id="inputBirthday" type="text" placeholder="Enter your birthday" value="06/10/1988">
-                            </div>
-                        </div>
+                        
                         <!-- Save changes button-->
                         <button class="btn btn-primary" type="submit">Save changes</button>
                     </form>
@@ -137,14 +121,14 @@
             <div class="card mb-4">
                 <div class="card-header">Changer mot de passe </div>
                 <div class="card-body">
-                    <form method="post" action="/customer/code/update">
+                    <form method="post" action="/distributeur/edit_password">
                         
                         
                        
                         <!-- Form Group (email address)-->
                         <div class="mb-3">
-                            <label class="small mb-1" for="inputEmailAddress">Ancien code</label>
-                            <input class="form-control" id="inputEmailAddress" type="text"  name="code" >
+                            <label class="small mb-1" for="inputEmailAddress">Ancien mot de passe</label>
+                            <input class="form-control" id="inputEmailAddress" type="text"  name="old_password" >
                             <input type="text"  name="id" value="{{session['user_connect']['id']}}" hidden>
                         </div>
                         <!-- Form Row-->
@@ -152,12 +136,12 @@
                             <!-- Form Group (phone number)-->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="inputPhone">Nouveau code</label>
-                                <input class="form-control" id="inputPhone" type="text" name="newCode">
+                                <input class="form-control" id="inputPhone" type="text" name="new_password">
                             </div>
                             <!-- Form Group (birthday)-->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="inputPhone">Confirmer code</label>
-                                <input class="form-control" id="inputPhone" type="text" name="codeConfirme">
+                                <input class="form-control" id="inputPhone" type="text" name="confirm_password">
                             </div>
                         </div>
                         <!-- Save changes button-->

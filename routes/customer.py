@@ -1,5 +1,4 @@
-from flask import Blueprint, flash, redirect, render_template, request
-from flask import session
+from flask import Blueprint, flash, redirect, render_template, request, session
 from app import app
 from lib.validator.granted_validor import is_connected,  is_customer
 from controllers import CustomerController
@@ -10,7 +9,9 @@ customer_bp = Blueprint('customer_bp', __name__)
 def customer():
     if  is_connected():
         if is_customer():
-            return render_template("client/dashboard.html")
+            id = session['user_connect']['email']
+            customer = CustomerController.customer_by_email(id)
+            return render_template("client/dashboard.html", customer=customer)
             
     return redirect('/')
 
@@ -19,7 +20,9 @@ def customer():
 def customer_profile():
     if  is_connected():
         if is_customer():
-            return render_template("client/profil.html")
+            id = session['user_connect']['email']
+            customer = CustomerController.customer_by_email(id)
+            return render_template("client/profil.html", customer=customer)
             
     return redirect('/')
 
@@ -56,17 +59,19 @@ def customer_deposit():
 def customer_deposit_post():
     if  is_connected():
         if is_customer():
-            if request.form['id']  and request.form['amount'] :              
-                id = session['user_connect']['id']
-                amount = float(request.form['amount'])
-                if amount >= 500 and amount < 100000:                   
-                    customer = CustomerController.deposit(id=id, amount=amount)                   
-                    if customer:
-                        session['user_connect']= CustomerController.customer_by_id(id).serialize()
-                        flash('Votre compte a été crédité avec succès')
-                    else:
-                        flash("Une erreur c'est produite")
-                return redirect('/')           
+            if request.form['id']  and request.form['amount'] :  
+                id = session['user_connect']['email']
+                customerGet = CustomerController.customer_by_email(id)            
+                id = customerGet.id
+                amount = request.form['amount']
+                customer = CustomerController.deposit(id=id, amount=amount)                   
+                if customer:
+                    
+                    flash('Votre compte a été crédité avec succès')
+                     
+                else:
+                    flash("Vous pouvez pas utilisez ce code")
+            return redirect('/customer/deposit')            
     return redirect('/')
 
 
@@ -93,12 +98,14 @@ def customer_send_post():
     if  is_connected():
         if is_customer():
             if  request.form['amount'] and request.form['account_number'] :              
-                id = session['user_connect']['id']
+                id = session['user_connect']['email']
+                customerGet = CustomerController.customer_by_email(id)            
+                id = customerGet.id
                 amount = float(request.form['amount'])
                 account_number = request.form['account_number']
                 if amount >= 500 and amount < 5000:
-                    if session['user_connect']['accounts']['account_number'] != account_number:
-                        if session['user_connect']['accounts']['balance'] >= amount and session['user_connect']['accounts']['balance'] - amount >= 1000:
+                    if customerGet.accounts.account_number != account_number:
+                        if customerGet.accounts.balance >= amount and customerGet.accounts.balance - amount >= 1000:
                             beneficiary = CustomerController.customer_by_account_number(account_number)
                             if beneficiary:
                                 if beneficiary.status == 'active':

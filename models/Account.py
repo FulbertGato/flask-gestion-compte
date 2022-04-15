@@ -13,20 +13,22 @@ class Account(db.Model):
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id', ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     customer = db.relationship('Customer', back_populates="accounts")
     transactions = db.relationship('Transaction', back_populates="account",cascade="all, delete", passive_deletes=True)
+    vouchers = db.relationship('Voucher', back_populates="account",cascade="all, delete", passive_deletes=True)
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=True)
 
-    def __init__(self,account_number,  balance, secret, customer_id):
+    def __init__(self, account_number, balance, secret, customer_id):
         self.account_number = account_number
         self.balance = balance
         self.secret = secret
         self.customer_id = customer_id
         self.created_at = datetime.datetime.now()
-        self.updated_at =   datetime.datetime.now()
-    
+        self.updated_at = datetime.datetime.now()
+
     def __repr__(self):
         return '<Account %r>' % self.account_number
 
+    
     def serialize(self):
         return {
             'id': self.id,
@@ -35,7 +37,11 @@ class Account(db.Model):
             'secret': self.secret,
             'customer_id': self.customer_id,
             'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'updated_at': self.updated_at,
+            'transactions': self.transactions.serialize(),
+            #list of vouchers
+            'vouchers': [voucher.serialize() for voucher in self.vouchers]
+            
         }
 
     

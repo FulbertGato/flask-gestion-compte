@@ -1,5 +1,5 @@
 
-from models import Customer, Admin, Account
+from models import Customer, Admin, Account, Distributeur
 
 
 def login_admin(usersname, password):
@@ -20,4 +20,10 @@ def login_customer(phone, password):
         return customer
     return False
     
+def login_distributeur(username, password):
+    distributeur = Distributeur.query_by_email(username)
+    if distributeur:
+        if Distributeur.password_is_correct(distributeur.password, password):
+            return distributeur       
+    return False
     
